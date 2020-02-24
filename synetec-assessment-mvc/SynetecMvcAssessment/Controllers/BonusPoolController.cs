@@ -18,8 +18,18 @@ namespace InterviewTestTemplatev2.Controllers
 
         public BonusPoolController(IEmployeeRepository employeeRepository, IBonusCalculatorService bonusCalculatorService )
         {
-            this.employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
-            this.bonusCalculatorService = bonusCalculatorService ?? throw new ArgumentNullException(nameof(bonusCalculatorService));
+            if (employeeRepository == null)
+            {
+                throw new ArgumentNullException(nameof(employeeRepository));
+            }
+
+            if (bonusCalculatorService == null)
+            {
+                throw new ArgumentNullException(nameof(bonusCalculatorService));
+            }
+
+            this.employeeRepository = employeeRepository;
+            this.bonusCalculatorService = bonusCalculatorService;
         }
 
         // GET: BonusPool
