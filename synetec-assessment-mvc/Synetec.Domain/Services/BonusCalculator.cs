@@ -18,6 +18,8 @@ namespace Synetec.Domain.Services
 
         public decimal CalculateBonus(int bonusPoolAmount, int employeeId)
         {
+            if (bonusPoolAmount < 0)
+                throw new ArgumentOutOfRangeException("Bonus must be greater than 0.");
             Employee employee = employeeRepository.Get(employeeId);
 
             if (employee == null)

@@ -35,21 +35,28 @@ namespace InterviewTestTemplatev2.Controllers
         public ActionResult Calculate(BonusPoolCalculatorRequest model)
         {
             BonusPoolCalculatorResultModel calcModel = new BonusPoolCalculatorResultModel();
-            
-            var employee = employeeRepository.Get(model.SelectedEmployeeId);
-            if(employee != null)
+
+            if (model.BonusPoolAmount < 0)
             {
-                decimal bonusAllocation = bonusCalculatorService.CalculateBonus(model.BonusPoolAmount, model.SelectedEmployeeId);
-                calcModel.Result.hrEmployee = employee;
-                calcModel.Result.bonusPoolAllocation = (int)bonusAllocation;
-                calcModel.Success = true;
+                calcModel.ErrorMessage = "Bonus must be greater than 0";
+                calcModel.Success = false;
             }
             else
             {
-                calcModel.ErrorMessage = "Employee was not found!";
-                calcModel.Success = false;
+                var employee = employeeRepository.Get(model.SelectedEmployeeId);
+                if (employee != null)
+                {
+                    decimal bonusAllocation = bonusCalculatorService.CalculateBonus(model.BonusPoolAmount, model.SelectedEmployeeId);
+                    calcModel.Result.hrEmployee = employee;
+                    calcModel.Result.bonusPoolAllocation = (int)bonusAllocation;
+                    calcModel.Success = true;
+                }
+                else
+                {
+                    calcModel.ErrorMessage = "Employee was not found!";
+                    calcModel.Success = false;
+                }
             }
-
             return View(calcModel);
         }
     }

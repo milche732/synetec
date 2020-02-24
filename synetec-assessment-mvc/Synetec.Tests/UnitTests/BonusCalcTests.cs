@@ -44,5 +44,16 @@ namespace Synetec.Tests
             Assert.AreEqual(500, bonus);
             Assert.ThrowsException<InvalidOperationException>(()=>bonusCalculatorService.CalculateBonus(1000, 10));
         }
+
+        [TestMethod]
+        public void CalculateBonus_NegativeBonuns_ThrowException()
+        {
+            Mock<IEmployeeRepository> mock = new Mock<IEmployeeRepository>();
+            mock.Setup(x => x.GetAll()).Returns(list);
+
+            BonusCalculatorService bonusCalculatorService = new BonusCalculatorService(mock.Object);
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => bonusCalculatorService.CalculateBonus(-1000, 10));
+        }
     }
 }
