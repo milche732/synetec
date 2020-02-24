@@ -1,0 +1,15 @@
+﻿@model InterviewTestTemplatev2.Models.BonusPoolCalculatorResultModel
+
+
+@{
+    ViewBag.Title = "Caclulate";
+}
+
+<h2>Bonus Pool Allocation</h2>
+
+@if(Model.Success){
+<p>The bonus pool allocation for @Html.DisplayFor(model => model.Result.hrEmployee.Full_Name) is: £@Html.DisplayFor(model => model.Result.bonusPoolAllocation)</p>
+}else{
+<p>@Html.DisplayFor(model => model.ErrorMessage)</p>
+}
+@Html.ActionLink("Click her to calculate for another employee", "Index")
